@@ -272,7 +272,7 @@ const Table = (props) => {
                                             return <>
                                                 <tr {...row.getRowProps()} className="">
                                                     {row?.cells?.map((cell, index) => {
-                                                        return !cell.render("Cell").props.column.more && <td {...cell.getCellProps()} className="py-2 px-1.5 border-b text-zinc-600 text-sm">
+                                                        return !cell.render("Cell").props.column.more && <td {...cell.getCellProps()} className="py-2 px-1.5 border-b bg-white text-zinc-600 text-sm">
                                                             <div className='flex items-center gap-1'>
                                                                 {(props?.more && index === 0) && <span className='text-zinc-800 cursor-pointer select-none px-1 border hover:bg-slate-50' onClick={() => toggleData(row?.id)}>+</span>}
                                                                 {cell.render('Cell')}
@@ -280,13 +280,13 @@ const Table = (props) => {
                                                         </td>
                                                     })}
                                                 </tr>
-                                                {toggle === row?.id && <tr {...row.getRowProps()} className="w-full ">
+                                                {toggle === row?.id && <tr {...row.getRowProps()} className="w-full">
                                                     <td colSpan={props.columns.filter(item => !item.more).length} className='bg-slate-50 border-b p-2 text-sm '>
                                                         {row?.cells?.map((mor) => {
                                                             return mor.render("Cell").props.column.more == true && <>
-                                                                <div className=' w-full flex items-center gap-2 py-1'>
-                                                                    <div className='font-semibold'>{mor.render("Cell").props.column?.Header}:</div>
-                                                                    <div className='font-normal'>{mor.render('Cell')}</div>
+                                                                <div className=' w-full grid grid-cols-12 py-1'>
+                                                                    <div className='col-span-2 font-semibold'>{mor.render("Cell").props.column?.Header}:</div>
+                                                                    <div className='col-span-10 font-normal'>{mor.render('Cell')}</div>
                                                                 </div>
                                                             </>
                                                         })}
@@ -331,7 +331,7 @@ const Table = (props) => {
                                 {
                                     page?.map((row, index) => {
                                         return (
-                                            <div key={index} className="border p-2 shadow-[0px_0px_10px_rgba(0,0,0,0.1)] flex flex-col gap-2 text-sm">
+                                            <div key={index} className="border p-2 shadow-[0px_0px_10px_rgba(0,0,0,0.1)] bg-white flex flex-col gap-2 text-sm">
                                                 {props?.columns?.map((column, index) => <div key={index} className="flex gap-2">
                                                     <span className="font-semibold">{column?.Header}: </span>
                                                     <div className="font-normal">
