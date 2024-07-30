@@ -1,3 +1,57 @@
+/*
+HOW TO USE
+-------------
+  const column = [
+        {
+            Header: 'Header1',
+            accessor: 'key1',
+            width: '15%',
+            Cell: ({ cell }) => <>
+                <div onClick={() => { }} className="" style={{ display: 'flex', gap: '5px', alignContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
+                    <span style={{ color: '#42a4f5' }}>{cell?.row?.original?.key1}</span>
+                </div>
+            </>
+        },
+        {
+            Header: 'Header2',
+            accessor: 'key2',
+            Cell: ({ cell }) => (cell?.row?.original?.key2 || 'N/A')
+        },
+        {
+            Header: 'Header3',
+            accessor: 'key3',
+            Cell: ({ cell }) => (cell?.row?.original?.key3 || 'N/A')
+        },
+        {
+            Header: 'Header4',
+            accessor: 'key4',
+            Cell: ({ cell }) => (cell?.row?.original?.key4 || 'N/A')
+        },
+        {
+            Header: 'Header5',
+            accessor: 'key5',
+            Cell: ({ cell }) => (cell?.row?.original?.key5 || 'N/A'),
+            more: true
+        },
+        {
+            Header: 'Header6',
+            accessor: 'key6',
+            Cell: ({ cell }) => (cell?.row?.original?.key6 || 'N/A'),
+            more: true
+        },
+        {
+            Header: 'Header7',
+            accessor: 'key7',
+            Cell: ({ cell }) => (cell?.row?.original?.key7 || 'N/A'),
+            more: true,
+            option: [{ 1: "Approved" }, { 2: "Reject" }, { 0: "Pending" }],
+        },
+    ]
+ <>
+            <Table dataList={data} heading="Test" columns={column} exportStatus={false} more={true} loader={loader} />
+        </>
+*/
+
 import React, { useMemo, useState, useEffect } from 'react'
 import { useTable, useSortBy, useGlobalFilter, usePagination } from 'react-table'
 import { CSVLink } from "react-csv";
