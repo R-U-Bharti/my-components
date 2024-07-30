@@ -1,33 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import 'animate.css'
+import { lazy, useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
+import { contextVar } from '@/Context/contextVar'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+
+  const [headerRoute, setHeaderRoute] = useState('')
+  const [headerText, setHeaderText] = useState('')
+  const [navToggle, setNavToggle] = useState(window.innerWidth > 768 ? true : false)
+  const [userDetails, setUserDetails] = useState(JSON.parse(sessionStorage.getItem('userProfile')) || null)
+
+  const contextData = {
+    headerRoute, setHeaderRoute,
+    headerText, setHeaderText,
+    navToggle, setNavToggle,
+    userDetails, setUserDetails
+  }
+
+  const publicRoutes = [
+    
+  ]
+
+  const routes = [
+    
+  ]
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      <Toaster />
+
+      <contextVar.Provider value={contextData}>
+        <Routes>
+
+          {
+            publicRoutes?.map((elem, index) =>
+              <Route key={index} path={elem?.path} element={elem?.element} />
+            )
+          }
+
+          <Route element={<ProtectedRoutes navToggle={navToggle} />}>
+            {
+              routes?.map((elem, index) =>
+                <Route key={index} path={elem?.path} element={elem?.element} />
+              )
+            }
+          </Route>
+
+        </Routes>
+      </contextVar.Provider>
     </>
   )
 }
