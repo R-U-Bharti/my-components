@@ -20,12 +20,19 @@ const App = () => {
   }
 
   const publicRoutes = [
-    
+
   ]
 
   const routes = [
-    
+
   ]
+
+  // Disable Right Click
+  useEffect(() => {
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault()
+    })
+  })
 
   return (
     <>
