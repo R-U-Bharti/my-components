@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(146, 146, 146, 0.3);
+  border: 3px solid transparent;
+  border-radius: 9px;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar {
+  background: transparent;
+  width: 8px;
+  height: 9px;
+}
+
+dialog:-internal-dialog-in-top-layer {
+  position: fixed;
+  inset-block-start: 0px;
+  inset-block-end: 0px;
+  max-width: 99.9%;
+  max-height: 99.8%;
+  user-select: text;
+  visibility: visible;
+  overflow: auto;
+}
+
+input[type='file']::file-selector-button {
+  font-family: "Montserrat", sans-serif;
+  position: absolute;
+  right: -4px;
+  top: 0;
+  height: 100%;
+  border: none;
+  padding: 5px 15px;
+  color: #292929cd;
+  cursor: pointer;
+  font-size: 13px;
+  background-color: #dadadaf2;
+}
+
+input[type=file]::file-selector-button:hover {
+  background-color: #a9a9a9f2;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+  .fieldWrap {
+    @apply flex flex-col gap-1;
+  }
+
+  .labelStyle {
+    @apply text-zinc-600 text-sm;
+  }
+
+  .fieldStyle {
+    @apply relative text-sm bg-white border border-zinc-300 px-2 py-1 rounded placeholder:text-xs focus:outline-none focus:border focus:border-slate-400 text-gray-700;
+  }
+
+  .fieldError {
+    @apply relative bg-white border border-red-300 placeholder:text-sm placeholder:text-red-400 px-2 py-1 rounded focus:outline-none focus:border focus:border-red-400 text-gray-700;
+  }
+
+  .asterisk {
+    @apply after:content-['*'] after:text-xs after:font-bold after:text-red-600 after:ml-1;
+  }
+
+  .submitStyle {
+    @apply bg-green-500 text-white px-4 py-1.5 text-sm hover:bg-green-600 cursor-pointer rounded focus:outline-none select-none;
+  }
+
+}

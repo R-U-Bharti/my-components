@@ -1,0 +1,52 @@
+/* Don't change any style below */
+/* React-Select Library CSS */
+.css-1u9des2-indicatorSeparator {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  width: 1px;
+  background-color: hsl(0, 0%, 80%);
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
+  box-sizing: border-box;
+}
+
+.css-13cymwt-control {
+  min-height: max-content !important;
+}
+
+.css-hlgwow {
+  padding: 0rem 0.5rem !important;
+}
+
+.css-1u9des2-indicatorSeparator {
+  visibility: hidden;
+}
+
+.css-1xc3v61-indicatorContainer {
+  padding: 0px 8px !important;
+}
+
+.css-13cymwt-control {
+  border: 1px solid #d4d4d8 !important;
+  outline: none !important;
+}
+
+/* Skeleton CSS */
+.animate {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, #fff 4%, #e2e2e2 25%, #fff 36%);
+  background-size: 1000px 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Below you can write your CSS */
