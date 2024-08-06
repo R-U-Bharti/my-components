@@ -190,7 +190,7 @@ const TableBp = (props) => {
                                 <button className={actionButtonStyle} onClick={() => exportToPdf()}>PDF</button>
                             </div>}
                             <div className='text-xs flex items-center gap-1'>
-                                Show <select className="fieldStyle" value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))}>
+                                Show <select className="fieldStyle" value={pageSize} onChange={(e) => handleChange('pageSize', e.target?.value)}>
                                     {[5, 10, 25, 50].map((pageSize) => (
                                         <option key={pageSize} value={pageSize}>
                                             {pageSize}
