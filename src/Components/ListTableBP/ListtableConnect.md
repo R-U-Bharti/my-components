@@ -23,5 +23,6 @@
                     columns={your_column} // sending column
                     requestBody={requestBody} // sending payload
                     changeData={changeData} // send to notify component that payload has changed
+                    heading=""
                 />
             }
