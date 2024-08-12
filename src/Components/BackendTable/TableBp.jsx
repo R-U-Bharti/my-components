@@ -1,7 +1,9 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState, useEffect, useReducer } from 'react'
 import { useTable, useSortBy, useGlobalFilter, usePagination } from 'react-table'
 import { CSVLink } from "react-csv";
 import * as XLSX from 'xlsx'
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { saveAs } from 'file-saver';
 import blank from '../../assets/blankTable.png'
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
@@ -84,7 +86,7 @@ const TableBp = (props) => {
 
     const makeExportFun = () => {
 
-        let data = props?.dataList?.map((elem, index) => {
+        let data = props?.allData?.map((elem, index) => {
             // Map over the columns for each element in dataList
             const rowData = props?.columns?.map((col, columnIndex) => {
 
@@ -131,7 +133,7 @@ const TableBp = (props) => {
 
     const exportToPdf = () => {
         const headers = props?.columns?.filter(item => item?.Header.toLowerCase() != "action")?.map((elem) => elem?.Header)
-        const data = props?.dataList?.map(elem => {
+        const data = props?.allData?.map(elem => {
             return props?.columns?.filter(item => item?.Header.toLowerCase() != "action")?.map((col) => {
                 // return ad[elem?.accessor];
 
@@ -160,6 +162,20 @@ const TableBp = (props) => {
         generatePDF(headers, data, props?.heading || 'Data List');
     }
 
+    useEffect(() => {
+
+        if (props?.exportType === 'csv') {
+            makeExportFun()
+        }
+        if (props?.exportType === 'pdf') {
+            exportToPdf()
+        }
+        if (props?.exportType === 'excel') {
+            exportToExcel(makeExportFun())
+        }
+
+    }, [props?.allData])
+
     const actionButtonStyle = 'border border-zinc-300 text-xs w-max px-3 py-1 text-zinc-700 hover:bg-zinc-100 cursor-pointer focus:outline-none select-none'
     const buttonStyle = 'border border-zinc-300 hover:bg-white text-xs w-max px-3 py-1 text-zinc-700 hover:bg-zinc-100 cursor-pointer focus:outline-none select-none'
 
@@ -182,13 +198,20 @@ const TableBp = (props) => {
                             <input className='fieldStyle w-full' type="text" value={globalFilter || ''} onChange={e => setGlobalFilter(e.target.value)} />
                         </div>
                         <div className='flex gap-5 md:justify-start justify-between'>
-                            {exportStatus && <div className="flex gap-2 items-center">
-                                <button className={actionButtonStyle}>
-                                    <CSVLink className='' data={makeExportFun()}>CSV</CSVLink>
-                                </button>
-                                <button className={actionButtonStyle} onClick={() => exportToExcel(makeExportFun())}>Excel</button>
-                                <button className={actionButtonStyle} onClick={() => exportToPdf()}>PDF</button>
-                            </div>}
+                            {exportStatus &&
+                                <>
+                                    {
+                                        props?.exportLoader == true ? <div className='italic text-sm text-center'>Exporting...</div>
+                                            :
+                                            <div className="flex gap-2 items-center">
+                                                <button className={actionButtonStyle} onClick={() => props.exportFun('csv')}>
+                                                    <CSVLink className='' data={props?.allData ?? []}>CSV</CSVLink>
+                                                </button>
+                                                <button className={actionButtonStyle} onClick={() => props.exportFun('excel')}>Excel</button>
+                                                <button className={actionButtonStyle} onClick={() => props.exportFun('pdf')}>PDF</button>
+                                            </div>
+                                    }
+                                </>}
                             <div className='text-xs flex items-center gap-1'>
                                 Show <select className="fieldStyle" value={pageSize} onChange={(e) => handleChange('pageSize', e.target?.value)}>
                                     {[5, 10, 25, 50].map((pageSize) => (
@@ -205,7 +228,7 @@ const TableBp = (props) => {
 
             <div className="w-full">
 
-                <div className="md:block hidden w-full">
+                <div className="md:block hidden w-full overflow-auto">
                     <table {...getTableBodyProps()} className="w-full" style={{ overflowX: 'auto' }}>
                         <thead className='bg-slate-50 border-b' style={{ width: '100%' }}>
                             {

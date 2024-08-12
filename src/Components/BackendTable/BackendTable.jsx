@@ -13,8 +13,11 @@ const BackendTable = (props) => {
     const [errorState, seterrorState] = useState(false)
     const [dataList, setdataList] = useState([])
     const [loader, setloader] = useState(false)
+    const [exportLoader, setExportLoader] = useState(false)
+    const [allData, setAllData] = useState([])
+    const [exportType, setExportType] = useState('')
 
-    const searchOldFun = async () => {
+    const fetchData = () => {
         seterrorState(false)
         setloader(true)
 
@@ -27,7 +30,7 @@ const BackendTable = (props) => {
                 settotalCount(res?.data?.recordsTotal ?? 0)
                 setlastPage(() => {
                     if (res?.data?.recordsTotal % perPageCount == 0) {
-                        return Math.ceil(res?.data?.recordsTotal / perPageCount) - 1
+                        return Math.ceil(res?.data?.recordsTotal / perPageCount)
                     } else {
                         return Math.ceil(res?.data?.recordsTotal / perPageCount)
                     }
@@ -97,20 +100,40 @@ const BackendTable = (props) => {
 
     // 👉 Calling Function 1 on Data change 👈
     useEffect(() => {
-
-        if (props?.changeData > 0) {
+        if (parseInt(props?.refresh) > 0) {
             setpageCount(1)
             setperPageCount(10)
-            searchOldFun()
+            fetchData()
         }
 
-    }, [props?.changeData])
+    }, [props?.refresh])
 
     // 👉 Calling Function 1 when page no. or data per page change 👈
     useEffect(() => {
         setloader(true)
-        searchOldFun()
+        fetchData()
     }, [pageCount, perPageCount, currentPage])
+
+    const exportFun = (type) => {
+
+        setExportType(type)
+
+        setExportLoader(true)
+
+        let url = `${props?.api}?draw=1&start=1&length=0`;
+
+        AxiosInterceptors.get(url, ApiHeader())
+            .then((res) => {
+                console.log('table: ', res)
+                setAllData(res?.data?.data ?? [])
+            })
+            .catch((error) => {
+                console.log('Table error getting all data: ', error)
+            }).
+            finally(() => {
+                setExportLoader(false)
+            })
+    }
 
     return (
         <>
@@ -132,6 +155,11 @@ const BackendTable = (props) => {
                 totalCount={totalCount}
                 lastPage={lastPage}
                 currentPage={currentPage}
+                exportStatus={props?.exportStatus}
+                exportFun={(type) => exportFun(type)}
+                exportType={exportType}
+                exportLoader={exportLoader}
+                allData={allData}
                 goFirst={firstPageFun}
                 goLast={lastPageFun}
                 nextPage={nextPageFun}
@@ -140,6 +168,7 @@ const BackendTable = (props) => {
                 perPageCount={perPageCount}
                 heading={props?.heading}
                 loader={loader}
+                more={props?.more ?? false}
             />
 
         </>
